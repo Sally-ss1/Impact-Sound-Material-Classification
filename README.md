@@ -23,8 +23,50 @@ More than 3,000 impact sound events were collected from multiple physical object
 
 ## Repository Structure
 
-```text
-.
-├── preprocessing.py
-├── train.py
-└── README.md
+This repository contains two main Python scripts:
+
+### `preprocessing.py`
+
+This script performs audio preprocessing and spectrogram generation. It:
+
+- loads the raw `.m4a` impact-sound recordings
+- resamples the audio to 44.1 kHz
+- detects impact events using RMS energy
+- extracts each impact segment from 0.05 s before to 0.20 s after the detected event
+- converts each segment into a log-frequency spectrogram
+- saves the resulting spectrograms as PNG images
+
+### `train.py`
+
+This script implements the compact Inception-based CNN used for material classification. It:
+
+- loads the spectrogram images
+- resizes them to 224 × 224 pixels
+- normalizes pixel values to [0, 1]
+- splits the intra-object data into training and validation subsets
+- trains the Inception-based CNN
+- applies early stopping and learning-rate reduction
+- evaluates classification performance
+- generates training curves, classification metrics, and a confusion matrix
+
+## Usage
+
+Run the preprocessing script first:
+
+```bash
+python preprocessing.py
+```
+
+Then run the training script:
+
+```bash
+python train.py
+```
+
+## Software Environment
+
+The code was implemented using:
+
+- Python 3.11
+- TensorFlow 2.20.0
+- Keras 3.13.2
